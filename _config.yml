@@ -1,3 +1,5 @@
 name: Christopher B Martin, PhD
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
+
+disqus: "https-chmartin-github-io"
