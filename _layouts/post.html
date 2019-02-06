@@ -7,6 +7,8 @@ comments: true
 
 <div class="post">
   {{ content }}
+  {% if page.comments %}
   <p> got here </p>
-  {% include disqus.html %}
+     {% include disqus.html %}
+  {$ endif %}
 </div>
