@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Christopher B Martin, PhD, Launches Site"
+title: "Christopher B. Martin, PhD, Launches Site"
 date: 2019-02-05
 ---
 
