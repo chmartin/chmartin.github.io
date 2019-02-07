@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Site Thesis! Let's get Started."
+title: "Site Thesis! Let's get started."
 date: 2019-02-07
 ---
 
