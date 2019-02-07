@@ -40,5 +40,6 @@ ul.posts {
 }
 
 ul.posts li {
+    font-family:'Helvetica', 'Arial', 'Sans-Serif';
     list-style: none;
 }
