@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Site Thesis, what is the goal."
+title: "Site Thesis! Let's get Started."
 date: 2019-02-07
 ---
 
