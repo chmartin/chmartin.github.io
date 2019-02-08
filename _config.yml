@@ -6,3 +6,5 @@ disqus: "https-chmartin-github-io"
 
 plugins:
   - jekyll-sitemap
+
+theme: jekyll-theme-cayman
