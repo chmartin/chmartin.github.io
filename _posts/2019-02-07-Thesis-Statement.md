@@ -8,10 +8,10 @@ Welcome to a new blog! As of this post, I imagine that most of the readership ar
 
 ## Who is Chris?
 
-If you have reached this page and don't know enough about me, please start [here](/cv).
+If you have reached this page and don't know enough about me, please start [here](index.md).
 
 ## So, why is Chris doing this?
 
-I have tried to summarize [here](/about).
+I have tried to summarize [here](about.md).
 
 ### Any thoughts on these statistics or the impact of data on our lives?
