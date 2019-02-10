@@ -1,10 +1,10 @@
 ---
 layout: default
 title: About this blog
-active: about blog
+active: about_blog
 ---
 
-<p><h1>About this blog</h1></p>
+# About this blog
 
 ___
 
@@ -21,3 +21,5 @@ This page was created to showcase techniques that businesses and individuals use
 It was inspired by my personal goal to further understanding of how data is employed for the benefit of everyday people, and hopefully alleviate some of the fears that have recently surrounded the use of data in business (which is not to say individuals shouldn't be mindful of the information they share!).
 
 I hope you enjoy the content and join me in the discussions about what data can tell us!
+
+**[Last updated: Feb 9, 2019]**

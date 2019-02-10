@@ -9,7 +9,11 @@ Download [Resume](https://chmartin.web.cern.ch/chmartin/Chris_Martin/contact/Res
 Download [Academic CV](https://chmartin.web.cern.ch/chmartin/Chris_Martin/contact/CV.pdf)
 
 ---
-I am a contributing author on > 100 publications in the ATLAS collaboration, and >100 publications in the CMS collaboration. Below is a selection of the results where I have been a major contributor.
+I am a contributing author on > 100 publications in the ATLAS collaboration, and >100 publications in the CMS collaboration. 
+
+Below is a selection of the results where I have been a major contributor.
+
+---
 
 **Martin, Christopher B.**, Jun 2018. _Operational Experience and Performance with the ATLAS Pixel detector_. Nucl. Instrum. Methods Phys. Res. A. [ATL-INDET-PROC-2018-002](https://www.sciencedirect.com/science/article/pii/S016890021830754X?via%3Dihub)
 

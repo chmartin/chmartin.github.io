@@ -1,10 +1,10 @@
 ---
 layout: default
 title: About me
-active: about me
+active: about_me
 ---
 
-<p><h1>About me</h1></p>
+# About me
 
 ___
 
