@@ -24,7 +24,7 @@ Second, whoscored.com is particularly difficult to scrape. Whoscored is a compan
 
 ## Scraping the EPL data
 
-Lets look at the [FBref_scrape](https://github.com/chmartin/FBref_EPL) package I built to collect the data.
+Lets look at the [FBref_EPL](https://github.com/chmartin/FBref_EPL) package I built to collect the data.
 
 #### Blindly executing
 There are two scripts, one for [keeper stats](https://github.com/chmartin/FBref_EPL/blob/master/FBref_gk_scrape.py) and another for [player stats](https://github.com/chmartin/FBref_EPL/blob/master/FBref_scrape.py). 
