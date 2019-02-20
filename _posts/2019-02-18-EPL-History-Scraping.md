@@ -20,17 +20,17 @@ _Why FBref.com and not whoscored.com?_
 
 FBref.com is a new resource, launching in June of 2018. Let's see what we can get form this new dataset!
 
-Second, whoscored.com is particularly difficult to scrape. Whoscored is a company selling their analytical insights for profit and have built their webpage in a way that is intended for their information to keep its value. However, I think it can be done. I started looking into it [here](https://github.com/chmartin/FBref_scrape/blob/master/Notes_whoscored.ipynb) but it requires using packages like [selenium](https://www.seleniumhq.org/) and timing automated browser clicks I found a bit tedious.
+Second, whoscored.com is particularly difficult to scrape. Whoscored is a company selling their analytical insights for profit and have built their webpage in a way that is intended for their information to keep its value. However, I think it can be done. I started looking into it [here](https://github.com/chmartin/FBref_EPL/blob/master/Notes_whoscored.ipynb) but it requires using packages like [selenium](https://www.seleniumhq.org/) and timing automated browser clicks I found a bit tedious.
 
 ## Scraping the EPL data
 
-Lets look at the [FBref_scrape](https://github.com/chmartin/FBref_scrape) package I built to collect the data.
+Lets look at the [FBref_scrape](https://github.com/chmartin/FBref_EPL) package I built to collect the data.
 
 #### Blindly executing
-There are two scripts, one for [keeper stats](https://github.com/chmartin/FBref_scrape/blob/master/FBref_gk_scrape.py) and another for [player stats](https://github.com/chmartin/FBref_scrape/blob/master/FBref_scrape.py). 
+There are two scripts, one for [keeper stats](https://github.com/chmartin/FBref_EPL/blob/master/FBref_gk_scrape.py) and another for [player stats](https://github.com/chmartin/FBref_EPL/blob/master/FBref_scrape.py). 
 
 Blindly running them is easy: `FBref_scrape.py -f <url_csv_file>`.
-This should work for any league FBref collects statistics on. All you need is a csv [list of urls](https://github.com/chmartin/FBref_scrape/blob/master/Fbref_URLs.csv) to the season stats pages.
+This should work for any league FBref collects statistics on. All you need is a csv [list of urls](https://github.com/chmartin/FBref_EPL/blob/master/Fbref_URLs.csv) to the season stats pages.
 
 The content of my python code is based on great examples [here](https://medium.com/@smehta/scrape-and-create-your-own-beautiful-dataset-from-sports-reference-com-using-beautifulsoup-python-c26d6920684e) and [here](https://github.com/BenKite/baseball_data/blob/master/baseballReferenceScrape.py).
 
@@ -123,4 +123,4 @@ Finally, we save this to a dataframe and then dump it to a csv:
     df_squad.to_csv(output_name)
 ```
 
-Scraping the full history of EPL from 1992 to 2018 for both offensive and keeper statistics took ~5-10min. So it is saved to the [GitHub repo](https://github.com/chmartin/FBref_scrape) for subsequent analysis.
+Scraping the full history of EPL from 1992 to 2018 for both offensive and keeper statistics took ~5-10min. So it is saved to the [GitHub repo](https://github.com/chmartin/FBref_EPL) for subsequent analysis.
