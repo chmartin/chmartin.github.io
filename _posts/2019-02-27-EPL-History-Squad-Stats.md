@@ -292,4 +292,4 @@ Wow, that was a much longer post than I originally intended... However, I think 
 
 I leave you with one last image... the correlation heat map of the full dataset. See anything unexpected?
 
-![Correlation Screenshot](/assets/images/Correlations_full_squad.png)
+![Correlation Screenshot](/assets/images/Correlations_Full_Squad.png)
