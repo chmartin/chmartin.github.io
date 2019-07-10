@@ -12,17 +12,17 @@ No code, no learning curves, let's just discuss the problem, how I think it coul
 
 ## FitBit data and problem formulation
 
-The goal is to use my personal data to classify 'office days' vs 'recreation days'. Everyone has a different activity level, and goal was to build a model to categorize the days in and out of the office. If my phone application can learn different categories of days I have, it can better recommend actions for me to be healthier. 
+The goal is to use my personal data to classify 'office days' vs 'recreation days'. Everyone has a different activity level, and the goal was to build a model to categorize the days in and out of the office. If my phone application can learn different categories of the days I have, it can better recommend actions for me to be healthier. 
 
 ### _Why?_ 
 
 Often I find myself working weekends, when I should be recharging my mental batteries. Can my FitBit tell me when that is happening?
 
-Let's take an example: How should my tracker respond if I am working on a cool TensorFlow project and am at the office though a weekend? If my tracker can identify this, later in the month it can recommend to me to be more active because I did not have my normal activity levels earlier in the month. For someone like me, (_who can be a bit obsessive about a project_) that would be extremely helpful.
+Let's take an example: How should my tracker respond if I am at the office working on a cool TensorFlow project even though it is a weekend? If my tracker can identify this, later in the month it can recommend me to be more active because I did not have my normal activity levels earlier in the month. For someone like me, (_who can be a bit obsessive about a project_), that would be extremely helpful.
 
-Currently, the app uses 'active minutes' to set goals for active days per week, and individual goals can be set for each different category the tracker monitors on a daily, weekly, and monthly level. This is great and completely customizable through the FitBit App/Webpage.
+Currently, the app uses 'active minutes' to set goals for active days per week, and individual goals can be set for each different category the tracker monitors on a daily, weekly, and monthly basis. This is great and completely customizable through the FitBit App/Webpage.
 
-But, can the app use the concert of that information it classify days so a user can monitor 'office days' vs 'recreation days'? As a proxy for 'office days' I will look at data from weekdays, the fraction of holidays should be small in this sample. As a proxy for 'recreation days' I will use weekends, my personal weekend activity will vary greatly but I hope will be distinct. 
+But, can the app use the concert of all that information it classify days so a user can monitor 'office days' vs 'recreation days'? As a proxy for 'office days' I will look at data from weekdays, the fraction of holidays should be small in this sample. As a proxy for 'recreation days' I will use weekends, my personal weekend activity will vary greatly but I hope it will be distinct. 
 
 
 ### _Who?_
@@ -55,31 +55,31 @@ Below, I will present some technical details but try to offer more general inter
 
 #### Explore the data
 
-After downloading the data I did some basic data exploration. My data contained information starting in 2014-08-29 though 2019-03-26. There were some missing days (_and months, those bands break so easy!_) but overall a great dataset with more than 1200 days after cleaning. Unlike by last project, I am sure that I have enough data. Most is organized by date, but some is as granular as minute by minute.
+After downloading the data I did some basic data exploration. My data contained information starting on 2014-08-29 through 2019-03-26. There were some missing days (_and months... those bands break so easy!_) but overall a great dataset with more than 1200 days, after cleaning. Unlike my last project, I am sure that I have enough data. Most is organized by date, but some is as granular as minute by minute.
 
  I found that the variables I wanted to look into the most were:
 
-1. **Total Steps in a day** FitBit keeps it's records in GMT, so this is the sum of steps per day in GMT. I could have tried to convert this to local times but that gets tricky. I have lived on Europe and the US during this timeframe, so it gets a bit harry (_even before considering Daylight Savings_). I also cut away days without at least 1500 steps.
+1. **Total Steps in a day:** FitBit keeps its records in GMT, so this is the sum of steps per day in GMT. I could have tried to convert this to local times but that gets tricky. I lived in Europe and the US during this timeframe, so it gets a bit difficult (_even before considering Daylight Savings_). I also cut away days without at least 1500 steps.
 ![Steps](/assets/images/Steps.png)
 
-2. **Minutes Asleep** I chose to keep only two sleep variables, minutes asleep is the time in minutes that the tracker recorded I was sleeping. 'Time in bed' and 'sleep duration' were almost completely correlated with sleeping minutes so I chose to use one variable and drop the others. I also dropped days where the logged minutes asleep was less than 200 minutes.
+2. **Minutes Asleep:** I chose to keep only two sleep variables, minutes asleep is the time in minutes that the tracker recorded I was sleeping. 'Time in bed' and 'sleep duration' were almost completely correlated with sleeping minutes so I chose to use one variable and drop the others. I also dropped days where the logged minutes asleep were less than 200 minutes.
 ![Sleep](/assets/images/minutesAsleep.png)
 
-3. **Minutes Awake** This is the second sleep variable. This clearly does not contain as much information as the two above, but is a measure of the minutes 'tossing and turning'. Interesting and easy to include.
+3. **Minutes Awake:** This is the second sleep variable. This clearly does not contain as much information as the two above, but is a measure of the minutes 'tossing and turning'. Interesting and easy to include.
 
-4. **Sedentary, lightly active, moderately active, and very active minutes** The next group of variables are derived from the heart-rate data that the tracker collects. The FitBit webpage actually describes these really well [here](https://help.fitbit.com/articles/en_US/Help_article/1379/?l=en_US&c=Topics%3ADashboard&fs=Search&pn=1).
+4. **Sedentary, lightly active, moderately active, and very active minutes:** The next group of variables are derived from the heart-rate data that the tracker collects. The FitBit webpage actually describes these really well [here](https://help.fitbit.com/articles/en_US/Help_article/1379/?l=en_US&c=Topics%3ADashboard&fs=Search&pn=1).
 
-To create the target variable for training and validation I converted the date string with each measurement into a boolean True or False for weekends.
+To create the target variable for training and validation, I converted the date string with each measurement into a boolean True or False for weekends.
 
 #### Prepare the data
 
-Similar to the last project, I decided to use the QuantileTransformer for scaling and normalization. I also tried StandardScaler, and saw similar performance. I did run my NN model on the dataset before standardization and got a accuracy of about 50%.
+Similar to the last project, I decided to use the QuantileTransformer for scaling and normalization. I also tried StandardScaler, and saw similar performance. I did run my NN model on the dataset before standardization and got an accuracy of about 50%.
 
-For analysis of the learning curves and F1-scores, I did a train/test split of 80/20%. While for the K-Fold validation, I used the full dataset and used the mean accuracy to measure performance.
+For analysis of the learning curves and F1-scores, I did a train/test split of 80/20%. While for the K-Fold validation, I used the mean of the accuracy to measure performance.
 
 ### Train the Neural Net
 
-All of this discussion can be seen in the jupyter notebooks included in the GitHub repository. I did not do a full tuning of all hyperperameters, the full grid search option seemed a bit overkill for this small project. 
+All of this discussion can be seen in the jupyter notebooks included in the GitHub repository. I did not do a full tuning of all hyperperameters, the full grid search option seemed a bit of an overkill for this small project. 
 
 I followed this great [post](https://machinelearningmastery.com/binary-classification-tutorial-with-the-keras-deep-learning-library/) which gives some great pointers for finding the basic structure of a binary classifier. I made a few basic structures, and made some learning curves with the early stop and history plotting modified from a TensorFlow [tutorial](https://www.tensorflow.org/tutorials/keras/basic_regression). 
 
@@ -87,19 +87,19 @@ All four models, seemed to have similar performance (_F1-scores_) and learning t
 
 ## For you to use!
 
-After all of this analysis, I thought it would be interesting to put this all into a script that any user can download and use! So I did: [here](https://github.com/chmartin/FitBit-Analysis/blob/master/FitBit_Weeday_Classifier.py)
+After all of this analysis, I thought it would be interesting to put this all into a script that any user can download and use! So I did [here](https://github.com/chmartin/FitBit-Analysis/blob/master/FitBit_Weeday_Classifier.py).
 
-The input will take the directory location of your FitBit JSONs, and will output a CSV with the variables used for classification, the target classification, and the predicted classification.
+The input will take the directory location of your FitBit JSONs, and output a CSV with the variables used for classification, the target classification, and the predicted classification.
 
 ### Tableau viz and Interpretations
 
-The dashboard I made to view the output is shown above. However, you can download the workbook [here](https://public.tableau.com/workbooks/FitBit-Analysis.twb). For my personal information the difference between my predicted classification and the actual number of 'rest days' seems to be consistently low by 2 days a month. I **choose** to interpret this as evidence that I work too many weekends. Though I cannot say that this is guaranteed.
+The dashboard I made to view the output is shown above. However, you can download the workbook [here](https://public.tableau.com/workbooks/FitBit-Analysis.twb). For my personal information, the difference between my predicted classification and the actual number of 'rest days' seems to be consistently low by 2 days a month. I **choose** to interpret this as evidence that I work too many weekends. Though I cannot say that this is guaranteed.
 
-This could be a bias in my activity. For example, it could be that the weekday data sample has a significant number of recovery days included biasing my ability to separate the two datasets. We know that holidays, sick days, etc are lumped in as one example. Additionally, I know that many weekends were spent working, again producing data points which make it difficult to distinguish the two days using my data.
+This could be a bias in my activity. For example, it could be that the weekday data sample has a significant number of recovery days included, biasing my ability to separate the two datasets. We know that holidays, sick days, etc. are lumped as one example. Additionally, I know that many weekends were spent working, again producing data points which make it difficult to distinguish the two days using my data.
 
 ## Next steps
 
-My standard list of 3 ways that someone could make what I show here better.
+My standard list of three ways that someone could make what I show here better:
 
 1. Grid Search the NN space. I did not do a formal grid search of the hyperparameters but that would be a great next step to make the classification a little better.
 
@@ -107,7 +107,7 @@ My standard list of 3 ways that someone could make what I show here better.
 
 3. Interface this with the FitBit API, to download and update model automatically and iteratively.
 
-There are many other things, but those are three that I wanted to do. The reality is that I think with this simple model I have done extremely well with this dataset.
+There are many other things, but those are the three that I wanted to do. The reality is that I think with this simple model I have done extremely well with this dataset.
 
 ### Questions
 * Have I missed something fundamental in my formulation of the problem? (_This will probably appear on most posts, I really wonder where I could do better!_)

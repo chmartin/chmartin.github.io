@@ -4,7 +4,7 @@ title: "EPL History, Part 4: National Diversity."
 date: 2019-03-21
 ---
 
-In my last post, I did a cleaning and preliminary exploration of the player data from [FBref.com](https://fbref.com). After a few posts just cleaning and formatting the data, lets get started looking at some interesting trends. (_I know that I promised some Machine Learning this time, but I got side-tracked looking at the data this way, and it is very interesting._)
+In my last post, I did a cleaning and preliminary exploration of the player data from [FBref.com](https://fbref.com). After a few posts just cleaning and formatting the data, let's get started looking at some interesting trends. (_I know that I promised some Machine Learning this time, but I got side-tracked looking at the data this way, and it is very interesting._)
 
 ## Recruiting Pool
 
@@ -13,7 +13,7 @@ Today, the EPL is considered one of the premier leagues in the world. It has int
 My goal today is to attempt to study the following questions:
 
 1. How has national origin of players evolved in EPL history?
-2. Were teams who recruited more international tallent more successful?
+2. Were teams who recruited more international talent more successful?
 
 This post will focus less on the `python`, but to recreate the things I show you need to use `pandas`, `numpy`, `matplotlib`, `seaborn`, and for an added bonus I made a few viz's with [Tableau Public](https://public.tableau.com/profile/christopher.martin1729#!/). The jupyter notebook where I did these studies can be found [here](https://github.com/chmartin/FBref_EPL/blob/master/Nat_Studies.ipynb).
 
@@ -21,23 +21,23 @@ This post will focus less on the `python`, but to recreate the things I show you
 
 OK, one great thing about this EPL dataset is that it contains country codes for most of the players. These specify the nationality of the players, giving us a proxy for the breadth of the recruiting pool used by each team. By merging the player level data with squad data we can actually do some nationality studies really simply.
 
-First, lets drop players who weren't very impactful on their teams. My bar for impact is still really low, simply that they have played more than one full match (_90 minutes_) for their teams:
+First, let's drop players who weren't very impactful on their teams. My bar for impact is still really low, simply that they have played more than one full match (_90 minutes_) for their teams:
 ```
 df = df[df['minutes_pl'] > 90]
 ```
 This cuts down our original 13,364 player-seasons to 12,129 player-seasons. Nothing dramatic, but a good way to remove players who only played a single game for a team that season. Everything in this post will use this requirement.
 
-OK, lets start our investigations of the recruiting pool by looking at the total number of nations represented in each season.
+OK, let's start our investigations of the recruiting pool by looking at the total number of nations represented in each season.
 
 ![Nat_Rep_year](/assets/images/Nat_Rep_year.png)
 
-This is extremely interesting to me. In the first 5 years after the league was formed the number of nations represented basically doubled! Then it continued to increase through the 2000's before leveling off again at a slightly lower level in resent years. I don't have data to really investigate the causes for these trends but _WOW_ the change between the early and later years striking.
+This is extremely interesting to me. In the first 5 years after the league was formed the number of nations represented basically doubled! Then it continued to increase through the 2000's before levelling off again at a slightly lower level in recent years. I don't have data to really investigate the causes for these trends but _WOW_ the change between the early and later years striking.
 
 
 Can we visualize these national trends easily? _Actually yes!!_ I was recently introduced to [Tableau Public](https://public.tableau.com/profile/christopher.martin1729#!/), which is really cool. I did some pandas manipulation on the data, then I saved it to a CSV which I could quickly and easily upload. They have great geographical visualisations, and tools where you (_yes you!_) can play around with the data to see how things have evolved historically!
 
-Further, I can embedded the visualizations here!
-This "viz" has two tabs, one gor a geographical representation, and another for the historical trend of each country. Feel free to play with the season specifiers on the right to look at individual seasons on the map. Or use second tab and the country selector to see the participation by year!
+Further, I can embed the visualizations here!
+This "viz" has two tabs, one for a geographical representation, and another for the historical trend of each country. Feel free to play with the season specifiers on the right to look at individual seasons on the map. Or use second tab and the country selector to see the participation by year!
 
 <center><iframe src="https://public.tableau.com/views/EPLNationalDiversity/EPLParticipationMap?:embed=y&:display_count=yes&:toolbar=no" width="1004" height="600" frameborder="0"></iframe></center>
 
@@ -80,11 +80,11 @@ I am trying to answer a simple limited, question:
 
 Were teams who recruited from a larger recruiting area more successful in the league standings?
 
-Intuitively, if a team can successfully recruit players from a larger recruiting area than their competitors, they should be able to out-perform them. A team of the best players from all europe should have more talent than the best players from the UK.
+Intuitively, if a team can successfully recruit players from a larger recruiting area than their competitors, they should be able to out-perform them. A team of the best players from all Europe should have more talent than the best players from the UK.
 
 We will use the number of nationalities per team-season as a measure of the recruiting area a team pulls from. However, we have already seen that this evolves quite significantly over the years. So we will "mean normalize" each season. (_We simply subtract the mean number of nationalities per season from each team that season._) This gives us a measure of the relative recruiting area of each team that season.
 
-We will use league points as the measure of success, we know it has worts but it is consistant within our dataset. A huge benefit is that league points is well behaved. It does not have a crazy range, or vary much between seasons so it is a nice variable to use. Like we have done before, we will calculate the number of points each team obtained that season:
+We will use league points as the measure of success, we know it has worts but it is consistent within our dataset. A huge benefit is that league points is well behaved. It does not have a crazy range, or vary much between seasons so it is a nice variable to use. Like we have done before, we will calculate the number of points each team obtained that season:
 ```
 df['Pts'] = df['wins'].apply(lambda x:x*3) + df['draws']
 ```
@@ -103,9 +103,9 @@ Not posted here, but did try a few other things:
 * I tried to normalize out the relative size of each squad.
 
 
-Ather study I do want to post here reframes the question a bit. Instead of counting the number of countries represented as a measure of recruiting area, just count the number of non-English players. This asks the question a bit differently, it will increase emphasis on the number of international players (_Still with respect to the rest of the league that season._) rather than the breadth of where the players come from.
+Another study I do want to post here reframes the question a bit. Instead of counting the number of countries represented as a measure of recruiting area, just count the number of non-English players. This asks the question a bit differently, it will increase emphasis on the number of international players (_Still with respect to the rest of the league that season._) rather than the breadth of where the players come from.
 
-Here I also see no correlation between the emphasis on international tallent and league standing:
+Here I also see no correlation between the emphasis on international talent and league standing:
 
 ![Rel_notE_joint](/assets/images/Rel_notE_joint.png)
 

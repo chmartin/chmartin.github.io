@@ -4,11 +4,11 @@ title: "EPL History, Part 2: Explore the Squad Stats."
 date: 2019-02-27
 ---
 
-This is the second part in a series where I will analyze data on the English Premier League. I will look at league data from the '92-'93 season until the '17-'18 season exclusive to the league matches, ignoring other cups and tournaments. In this post I will describe the cleaning and preliminary exploration of the squad data.
+This is the second part in a series where I analyze data on the English Premier League. I look at league data from the '92-'93 season until the '17-'18 season exclusive to the league matches, ignoring other cups and tournaments. In this post I will describe the cleaning and preliminary exploration of the squad data.
 
 ## Status of Project
 
-In my last post, I scraped data from [FBref.com](https://fbref.com). I saved the data in 4 separate csv files for each season: offensive squad, goalkeeping squad, offensive player, and defensive player. This process did not clean or validate on the dataset, so there could be issues with it. In its present form, the it would be difficult to observe historical trends in the data, or validate it's consistency. In this post, I demonstrate how to combine the squad level into a cohesive picture, prepare it for analysis, and do some data validation checks.
+In my last post, I scraped data from [FBref.com](https://fbref.com). I saved the data in 4 separate csv files for each season: offensive squad, goalkeeping squad, offensive player, and defensive player. This process did not clean or validate on the dataset, so there could be issues with it. In its present form, it would be difficult to observe historical trends in the data, or validate its consistency. In this post, I demonstrate how to combine the squad level into a cohesive picture, prepare it for analysis, and do some data validation checks.
 
 ## Joining the EPL squad data
 
@@ -35,13 +35,13 @@ The second half of this code starts the cleaning process. In the scrape, both se
 
 Next we add a `season` column, which will allow us to later append multiple years together. This gives us a time axis for or history study and a handle making the dataset much easier to validate (_See, I have a point to dedicating a paragraph to this simple line._)
 
-Finally, this script converts the original `"minutes"` column to something usable. In the scrape this data was stored as a string because it had the form: `3,270`. That thousands comma separator is a real crappy feature. This line applies a `lambda` function to each entry in the column replacing the `','` with `''` and converting the string to an integer. `lambda` functions honestly are changing my life (_Seriously, do you have any idea how many one line loops and functions I have written in my life? Neither do I..._).
+Finally, this script converts the original `"minutes"` column to something usable. In the scrape this data was stored as a string because it had the form: `3,270`. That thousands comma separator is a real frustrating feature. This line applies a `lambda` function to each entry in the column replacing the `','` with `''` and converting the string to an integer. `lambda` functions honestly are changing my life (_Seriously, do you have any idea how many one line loops and functions I have written in my life? Neither do I..._).
 
 Now we have a DataFrame with both squad offensive and keeper stats for a full season! Code and output in the [GitHub repo](https://github.com/chmartin/FBref_EPL). I also created a single dataset by appending all seasons together into one large dataframe [here](https://github.com/chmartin/FBref_EPL/blob/master/Scrape_output/Full_Squad.csv).
 
 ## Summary of the squad data
 
-Before looking at the information contained in the dataset, let's clearly define the variables it contains
+Before looking at the information contained in the dataset, let's clearly define the variables it contains:
 
 * **squad**: A string with the squad name. e.g. 'Tottenham Hotspur'.
 * **pens\_made**: Number of penalty kicks made in a season.
@@ -83,16 +83,16 @@ _Phew!_ Ok so for many studies not all of these variables are going to be useful
 
 ### Team participation
 
-Lets start by checking our data against some big picture official statistics. The total dataset spans the 26 seasons of the EPL (_Known as the Premiership until 2007._). We have a total of 526 entries, one for each squad each season. Before the '95-'96 season we have 22 squads per season, and only 20 after. These numbers mirror the reduction of the league going into the 1995 season. 
+Let's start by checking our data against some big picture official statistics. The total dataset spans the 26 seasons of the EPL (_Known as the Premiership until 2007._). We have a total of 526 entries, one for each squad each season. Before the '95-'96 season we have 22 squads per season, and only 20 after. These numbers mirror the reduction of the league going into the 1995 season. 
 
-Using the simple `len(df['squad'].unique())` we can confirm that a total of 49 different teams have participated in Englands top league over the last 26 years. And with this loop:
+Using the simple `len(df['squad'].unique())` we can confirm that a total of 49 different teams have participated in England's top league over the last 26 years. And with this loop:
 
 ```
     for team in df['squad'].unique():
     num_seasons = df[df['squad'] == team]['squad'].count()
     print(team+": {0}".format(num_seasons))
 ```
-We obtain the number of seasons each squad has participated in. Areenal, Chelsea, Everton, Liverpool, Manchester United, and Tottenham Hotspur have participated in all 26 seasons. While Swindon Town, Barnsley, Blackpool, Cardiff City, Brighton & Hove Albion, and Huddersfield Town have only participated in a single season.
+We obtain the number of seasons each squad has participated in. Arsenal, Chelsea, Everton, Liverpool, Manchester United, and Tottenham Hotspur have participated in all 26 seasons. While Swindon Town, Barnsley, Blackpool, Cardiff City, Brighton & Hove Albion, and Huddersfield Town have only participated in a single season.
 
 ### League Champions
 
@@ -145,7 +145,7 @@ Gives:
 
 Comparing this to the official records, a few things become obvious.
 1. In 2011 Man. City and Man. United tied for the total number of points.
-2. In 2000 Man. United officially received 80 points, while our dataset gives them 89
+2. In 2000 Man. United officially recieved 80 points, while our dataset gives them 89
 3. In 1993 Man. United officially recieved 92 points, while our dataset gives them 105
 
 _What does this mean?_
@@ -154,7 +154,7 @@ Our win/loss/draw totals (W/L/D) are incorrect.
 
 ### W/L/D and game totals
 
-Lets first compute our number of games based on the recorded W/L/D numbers:
+Let's first compute our number of games based on the recorded W/L/D numbers:
 
 ```
     df['my_games'] = df['wins_gk'] + df['draws_gk'] + df['losses_gk']
@@ -187,7 +187,7 @@ OK what about the other two...
 
 _Uff_
 
-Not great... Quite well correlated to each other, but not to the expected totals like the `games` variable. Lets make a new [frame](https://github.com/chmartin/FBref_EPL/blob/master/Scrape_output/bad_WLD_totals_squad.csv) with all the bad totals and save it for later:
+Not great... Quite well correlated to each other, but not to the expected totals like the `games` variable. Let's make a new [frame](https://github.com/chmartin/FBref_EPL/blob/master/Scrape_output/bad_WLD_totals_squad.csv) with all the bad totals and save it for later:
 
 ```
 df_bad_WLD_totals = df[((df['games']-df['my_games']) != 0) | ((df['games_starts_gk']-df['my_games']) != 0) | ((df['games_starts_gk']-df['games']) != 0)]
@@ -224,12 +224,12 @@ Finally, the case of Everton 2005. Here it is hard to tell where to begin... I w
 
 _What to do about this?_
 
-OK, so we have some bad data, and it is inherently poor. Not due to our manipulations. So the actions to take are a bit limited:
+OK, so we have some bad data, and it is inherently poor. Not due to our manipulations. So the actions to be taken are limited:
 1. Throw out the whole dataset. (_OK that is just a bad idea, we have information here!_)
 2. Search the internet for better data to replace our bad data. (_Wasn't the whole point to use this new dataset?_)
 3. Drop bad data, it is only a small fraction and use the rest to learn something!
 
-It's obvious what to do right? Yes, number 3 is what I have chosen to do. It is a shame, we loose some interesting seasons, including two champions, but if dropping 8% of our data changes our conclusions drastically then we have done something incorrectly!
+It's obvious what to do, right? Yes, number 3 is what I have chosen to do. It is a shame, we lose some interesting seasons, including two champions, but if dropping 8% of our data changes our conclusions drastically, then we have done something incorrectly!
 
 I should also add that I am in communication with FBref about these discrepancies. I hope that with this analysis I can help them debug things!
 
@@ -282,7 +282,7 @@ Shows that things are not perfect...
 
 Over all seasons this is only a small discrepancy: -1.6%. So I suspect that this is due to different sources for the original information. Judging if a shot is 'on target' is quite subjective in some cases. It could be that FBref uses one source for offensive data and another for defensive resulting in slightly different definitions of 'on target'.
 
-However, there is one very strange season, 2012 which has a **26%** difference. That is significant. We will need to take special note of this if trying to relate the offensive and defensive statistics for this season.
+However, there is one very strange season, 2012, which has a **26%** difference. That is significant. We will need to take special note of this if trying to relate the offensive and defensive statistics for this season.
 
 Again, I am in communication with FBref about this, and I hope we can find the issues together!
 

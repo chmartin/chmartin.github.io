@@ -4,7 +4,7 @@ title: "EPL History, Part 5: Neural Network to Predict Goals."
 date: 2019-03-25
 ---
 
-In my last post, I did an exploration of the player data from [FBref.com](https://fbref.com) to see if there was a relationship between a teams ability to recruit internationally and their success. In this post I wanted to do something a bit more quantitative and use some of the (_new to me_) libraries in the [TensorFlow](https://www.tensorflow.org/) package.
+In my last post, I did an exploration of the player data from [FBref.com](https://fbref.com) to see if there was a relationship between a team's ability to recruit internationally and their success. In this post I wanted to do something a bit more quantitative and use some of the (_new to me_) libraries in the [TensorFlow](https://www.tensorflow.org/) package.
 
 ## Player prediction
 
@@ -16,15 +16,15 @@ Can I predict the number of goals a player will score in their Nth season in the
 
 I focus here on the 4th and 6th seasons where I trained a NN to make such predictions, but much of the data cleaning was done for any season.
 
-I will focus on just a small umber of variables and try to select players with a relatively consistant performance to minimize outliers.
+I will focus on just a small number of variables and try to select players with a relatively consistent performance to minimize outliers.
 
 This post will focus less on the `python`, but to recreate the things I show you need to use `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, and `TensorFlow`. The jupyter notebook where I did these studies can be found [here](https://github.com/chmartin/FBref_EPL/blob/master/NN_for_Goals.ipynb).
 
 ## Goal scoring players
 
-To start lets strip down our data to goal scoring players. From earlier posts, we know that our dataset contains 13,364 player-seasons. However, we only want players who have played a significant number of matches each season. So lets trim this down to player-seasons where the player played at least 450 minutes (_5 X 90min games_). That still leaves us with 10,156 player-seasons with 'significant' contribution.
+To start lets strip down our data to goal scoring players. From earlier posts, we know that our dataset contains 13,364 player-seasons. However, we only want players who have played a significant number of matches each season. So let's trim this down to player-seasons where the player played at least 450 minutes (_5 X 90min games_). That still leaves us with 10,156 player-seasons with 'significant' contribution.
 
-Now, that we have our 'significant players' lets select the goal scoring ones from that group. For this study, lets take players who are listed in the `FW` or `MF` position. Throwing away the Defenders and Keepers, we are left with 6,323 player-seasons.
+Now, that we have our 'significant players' lets select the goal scoring ones from that group. For this study, let's take players who are listed in the `FW` or `MF` position. Throwing away the Defenders and Keepers, we are left with 6,323 player-seasons.
 
 Finally, we would like to do a historical projection so let's take only players with a least 4 seasons meeting the above criteria. After this final requirement, we are left with 3,845 player-seasons. This has cut away a lot of our data, but it removed players we don't really want to focus on for the moment because shorter careers lead to less input for our model. 
 
@@ -86,7 +86,7 @@ Those in the upper middle: will end up dropping these too (_a bit of foreshadowi
 
 Finally, the cream: goals and shots on target. These are fairly expected, players who score goals are likely to score more and players to take shots are likely to score more goals. (_Did you catch it?_) So should we use both of these variables? 
 
-Well, lets check if that would be a good idea. (_Can you tell what I am hinting at?_) For use in most ML techniques we would like to use variables that are not highly correlated with each other. That way we don't spend cycles training the model on redundant information. Let's check their correlation quickly:
+Well, let's check if that would be a good idea. (_Can you tell what I am hinting at?_) For use in most ML techniques we would like to use variables that are not highly correlated with each other. That way we don't spend cycles training the model on redundant information. Let's check their correlation quickly:
 
 ![Goals_SoT_pair](/assets/images/Goals_SoT_pair.png)
 
@@ -106,7 +106,7 @@ Now that we have chosen our features and targets. Need to do one last round of c
 
 ## Feature preparation
 
-Before doing any statistical analysis on this data we should split it into our training and test sets. We will perform all of our operations on the training set, and then use the test set to measure the performance. (_This stops us from overfitting or biasing our data with our procedure._) I chose to use 20% of the data for testing, leaving 440(230) players for season 4(6) training. (_I payed around with this fraction a bit, and this left a good fraction to work with while still being a reliable test set._)
+Before doing any statistical analysis on this data we should split it into our training and test sets. We will perform all of our operations on the training set, and then use the test set to measure the performance. (_This stops us from overfitting or biasing our data with our procedure._) I chose to use 20% of the data for testing, leaving 440(230) players for season 4(6) training. (_I played around with this fraction a bit, and this left a good fraction to work with while still being a reliable test set._)
 
 The next step is to normalize/scale the data. In one sentence, this is needed so that the learning algorithm can take even steps in all directions as it is searching for the optimal fit rather than having one feature stretched with respect to another.
 
@@ -152,7 +152,7 @@ For the training, used the `callbacks.EarlyStopping()` functionality to monitor 
 
 How does it perform on out test set though? Using the `evaluate()` function on our test features and target gives a testing set Mean Abs Error of  0.70 Normalized Goals. 
 
-Lets do one better, use `predict` to compare the Predicted vs True goals in our testing set:
+Let's do one better, use `predict` to compare the Predicted vs True goals in our testing set:
 
 ![First_model_test](/assets/images/first_model_test.png)
 
@@ -183,7 +183,7 @@ Here I increased the patience parameter on the training after playing around wit
 
 ![Second_model](/assets/images/Second_model.png)
 
-Anecdotally, the second model seemed to be less prone to over-fittig as I would vary the units, layers, and activation functions. I did not do a quantitative assesment of it for this toy project, but it could be done with a little more effort.
+Anecdotally, the second model seemed to be less prone to over-fitting as I would vary the units, layers, and activation functions. I did not do a quantitative assessment of it for this toy project, but it could be done with a little more effort.
 
 #### Comparison to Linear Regression
 
@@ -211,7 +211,7 @@ NN Mean Abs Error:  0.62 Normalized Goals
 NN Variance score: 0.38
 ```
 
-So after making my way trough the maze... A simple regression could have done equally well with this problem. But neither are doing very well, which can be seen by comparing the plots of the output tests.
+So after making my way through the maze... A simple regression could have done equally well with this problem. But neither are doing very well, which can be seen by comparing the plots of the output tests.
 
 Here is my Season 6 NN:
 ![Second_model_test](/assets/images/Second_model_test.png)
@@ -219,7 +219,7 @@ Here is my Season 6 NN:
 And finally the linear regression:
 ![Regression_test](/assets/images/Regression_test.png)
 
-**In the end, neither regression or the NN can do very much to predict the number of goals using shots on target from previous seasons.**
+**In the end, neither regression nor the NN can do very much to predict the number of goals using shots on target from previous seasons.**
 
 I enjoyed working on it though!
 
@@ -227,7 +227,7 @@ I enjoyed working on it though!
 
 Before going to my standard open questions to the readers. I am starting a new piece at the end where I list 3 ways that someone could make what I show here better.
 
-1. Do a quantitative study of the NN settings: I did most of my work with experimentation and qualitative assessment. But as you can see NN have many tunable and adjustable parameters that could be evaluated.
+1. Do a quantitative study of the NN settings: I did most of my work with experimentation and qualitative assessment. But as you can see NN have many tuneable and adjustable parameters that could be evaluated.
 2. Add more players: It is clear to me that doing any serious kind of projection will require many more player records. One could dip into the lower leagues in England, or obtain inputs from other European leagues. I didn't dare to look at careers longer than 6 seasons because of the player drop-off.
 3. Outlier protections: As I said the number of outliers in this dataset is non-zero. They were a small fraction and I don't think they were a huge factor in my training. However, to do this on a 'production' level one would need to treat these better.
 
@@ -236,5 +236,5 @@ There are many other things, but those are three that I wanted to do. The realit
 ### Questions
 * Have I missed something fundamental in my formulation of the problem? (_This will probably appear on most posts, I really wonder where I could do better!_)
 * I thought about treating each player-season as a feature vector rather than player-careers is that an easier/more robust formulation?
-* How would you treat goals beging a not well distributed variable? I made one choice, what would you do?
+* How would you treat goals being a not well distributed variable? I made one choice, what would you do?
 * Any thoughts on what are the most important factors in player development? Or metrics we should use to judge it?

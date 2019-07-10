@@ -4,13 +4,13 @@ title: "EPL History, Part 3: Explore the Player Stats."
 date: 2019-03-18
 ---
 
-In my last post, I did a cleaning and preliminary exploration of the squad data from [FBref.com](https://fbref.com). In this post I will look at the offensive player and defensive player information and do some cleaning and validation checks.
+In my last post, I did a cleaning and preliminary exploration of the squad data from [FBref.com](https://fbref.com). In this post, I will look at the offensive player and defensive player information and do some cleaning and validation checks.
 
 ## Joining the EPL player data
 
 To begin, the [FBref_join_year_player](https://github.com/chmartin/FBref_EPL/blob/master/FBref_join_year_player.py) script will collect the offensive and keeper player data for a specific year and join it to together into a single CSV. Not a difficult task, but this script must take care to avoid data columns with the same name, effectively use `pandas.DataFrame` functions (`merge()`, `drop()`, and `apply()`), as well as python `lambda` functions.
 
-Lets begin with these lines:
+Let's begin with these lines:
 ```
     df_gk_player= pd.read_csv(f_gk[0])
     df_player= pd.read_csv(f[0])
@@ -36,7 +36,7 @@ We now begin the cleaning process:
 ```
 In the scrape, both sets obtained a `Unnamed: 0` column. In the original html, this specifies on how the user wants to sort the data. For us this is garbage, so drop it. 
 
-The tricky part of the cleaning is the nationality. It contains a few steps because the nationality string comes with a few features. Unfortunately my scrape produced things like `'cs TCH,cz CZE'` and `'au AUS'`. There are multiple versions of the country codes because different specifiers were used for the text and flag images on the webpage. I decided to use the first of the two and drop the other. Additionally it is also possible to have two contries listed as a player may play for multiple national teams as the world geopolitical situation evolves.
+The tricky part of the cleaning is the nationality. It contains a few steps because the nationality string comes with a few features. Unfortunately my scrape produced things like `'cs TCH,cz CZE'` and `'au AUS'`. There are multiple versions of the country codes because different specifiers were used for the text and flag images on the webpage. I decided to use the first of the two and drop the other. Additionally it is also possible to have two countries listed as a player may play for multiple national teams as the world geopolitical situation evolves.
 
 The approach I took was to convert the strings into lists that are easy to manipulate:
 ```
@@ -116,13 +116,13 @@ _Phew!_ Similar to the squad statistics not all of these will be useful, but it 
 
 ## Basic validation
 
-Let's do some of the basic checks that we did on the squad data on this player data. The goal is to prove it is consistant with the squad data at least.
+Let's do some of the basic checks that we did on the squad data on this player data. The goal is to prove it is consistent with the squad data at least.
 
 ### Team participation
 
 Again, we will start by checking our data against some big picture official statistics. The total dataset spans the 26 seasons of the EPL. We have a total of 13364 entries, one for each player who has participated in EPL competition. 
 
-Before the '95-'96 season we have 22 squads per season, and only 20 after. These numbers mirror the reduction of the league going into the 1995 season. Using the simple `df_both['squad'].nunique()` we can confirm that a total of 49 different teams have participated in Englands top league over the last 26 years. 
+Before the '95-'96 season we have 22 squads per season, and only 20 after. These numbers mirror the reduction of the league going into the 1995 season. Using the simple `df_both['squad'].nunique()` we can confirm that a total of 49 different teams have participated in England's top league over the last 26 years. 
 
 ### League Champions
 
@@ -178,7 +178,7 @@ Gives:
     Manchester City   100.0
 ```
 
-This matches exactly the results of the squad data, including all warts. Specifically, that the W/L/D numbers are bugged, but at least consistant between our datasets.
+This matches exactly the results of the squad data, including all warts. Specifically, that the W/L/D numbers are bugged, but at least consistent between our datasets.
 
 _What does this mean?_
 
@@ -188,7 +188,7 @@ Our win/loss/draw totals (W/L/D) are incorrect.
 
 Since we know that these are not exactly correct, lets do quick evaluation of them to see if it is a uniform issue as we saw with the squad data.
 
-Lets use this loop:
+Let's use this loop:
 ```
     for year in df['season'].unique():
         one_season = df[df['season'] == year]
@@ -199,7 +199,7 @@ Lets use this loop:
         print(year,": ",Season_wins," + ",Season_losses," + ",Season_draws," = ",Season_wins+Season_losses+Season_draws, " - ",gk_starts," = ",Season_wins+Season_losses+Season_draws-gk_starts) 
 
 ```
-This will print the difference between the total number of games where a keeper started compared to the recorded wins, losses, and draws (_below_). This should be equal to twice the number of matches in a season. 
+This will print the difference between the total number of games where a keeper started, compared to the recorded wins, losses, and draws (_below_). This should be equal to twice the number of matches in a season. 
 ```
 year :  wins   +  losses +  draws  =  (sum) - keeper starts = Difference
 1992 :  332.0  +  333.0  +  262.0  =  927.0  -  924.0  =  3.0
@@ -229,7 +229,7 @@ year :  wins   +  losses +  draws  =  (sum) - keeper starts = Difference
 2016 :  296.0  +  296.0  +  168.0  =  760.0  -  760.0  =  0.0
 2017 :  281.0  +  281.0  +  198.0  =  760.0  -  760.0  =  0.0
 ```
-The data shows we are missing some games in some seasons and have extra in others. I think this, in combination with what we saw last time, points to corruption in the records rather than a bug I introduced. But does show that the issues are mostly in the early years, and consistant with the squad data.
+The data shows we are missing some games in some seasons and have extra in others. I think this, in combination with what we saw last time, points to corruption in the records rather than a bug I introduced. But it does show that the issues are mostly in the early years, and consistent with the squad data.
 
 ### Goals and goals against
 
@@ -385,7 +385,7 @@ fr        621
 sco       601
 wal       454
 ```
-As one would expect: England, Ireland, France, Scotland, and Wales are the top 5 represented countries. This is a bit biased, because one should really parse the string to find individuals with multiple affiliations but looking at the numbers it should not change this much. This also highlights a feature of EPL teams, the have a quota on the number of homegrown players. This highly biases their teams toward English players, as it is more likely that those players will have been in the country since a young age.
+As one would expect: England, Ireland, France, Scotland, and Wales are the top 5 represented countries. This is a bit biased, because one should really parse the string to find individuals with multiple affiliations but looking at the numbers it should not change this much. This also highlights a feature of EPL teams, they have a quota on the number of homegrown players. This highly biases their teams toward English players, as it is more likely that those players will have been in the country since a young age.
 
 ### Positions
 
