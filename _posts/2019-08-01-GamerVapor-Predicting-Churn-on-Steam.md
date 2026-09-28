@@ -1,16 +1,19 @@
 ---
 layout: post
 title: "GamerVapor, Part 1: Predicting Who Leaves the Steam Community"
-date: 2026-09-28 00:05:00 -0400
+date: 2019-08-01 00:01:00 -0400
 series: gamervapor
 series_title: "GamerVapor, my Insight Data Science project (2019)"
 ---
 
 {% include series.html %}
 
+*Written in September 2026, looking back; dated to when the project was built.*
+
+
 In the summer of 2019 I left particle physics for industry through the [Insight Data Science](https://insightfellows.com) fellowship. Insight fellows spend a few intense weeks building a data product from scratch and then present it to hiring companies. Mine was **GamerVapor**, a tool to predict and diagnose churn in the Steam community.
 
-This is a look back at that project, seven years later. Part 1 covers the idea and what I found. [Part 2]({% post_url 2026-09-28-GamerVapor-Data-Engineering %}) covers the data engineering (how I collected a 200,000-user social network from a public API), and [Part 3]({% post_url 2026-09-28-GamerVapor-Data-Science %}) covers the modeling.
+This is a look back at that project, seven years later. Part 1 covers the idea and what I found. [Part 2]({% post_url 2019-08-01-GamerVapor-Data-Engineering %}) covers the data engineering (how I collected a 200,000-user social network from a public API), and [Part 3]({% post_url 2019-08-01-GamerVapor-Data-Science %}) covers the modeling.
 
 ## Why Steam?
 
@@ -69,4 +72,4 @@ This was a 2019 project, built with 2019 tools, in a few weeks, by one person:
 
 No cloud ML platform and no deep learning. A clean, interpretable model was the right tool, because the point was to explain *why* users churn, not just to flag them.
 
-Next, [Part 2]({% post_url 2026-09-28-GamerVapor-Data-Engineering %}): building the dataset.
+Next, [Part 2]({% post_url 2019-08-01-GamerVapor-Data-Engineering %}): building the dataset.

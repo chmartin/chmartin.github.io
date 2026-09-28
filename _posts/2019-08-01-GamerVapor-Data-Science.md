@@ -1,14 +1,17 @@
 ---
 layout: post
 title: "GamerVapor, Part 3: Modeling Churn (the Data Science)"
-date: 2026-09-28 00:07:00 -0400
+date: 2019-08-01 00:03:00 -0400
 series: gamervapor
 series_title: "GamerVapor, my Insight Data Science project (2019)"
 ---
 
 {% include series.html %}
 
-[Part 2]({% post_url 2026-09-28-GamerVapor-Data-Engineering %}) turned a crawl of the Steam friend graph into 17 features for about 200,000 users. This post covers the model: how I trained it, how I checked it, and what it said about why people leave.
+*Written in September 2026, looking back; dated to when the project was built.*
+
+
+[Part 2]({% post_url 2019-08-01-GamerVapor-Data-Engineering %}) turned a crawl of the Steam friend graph into 17 features for about 200,000 users. This post covers the model: how I trained it, how I checked it, and what it said about why people leave.
 
 ## Why logistic regression
 

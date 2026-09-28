@@ -1,14 +1,17 @@
 ---
 layout: post
 title: "GamerVapor, Part 2: Crawling a Social Network (the Data Engineering)"
-date: 2026-09-28 00:06:00 -0400
+date: 2019-08-01 00:02:00 -0400
 series: gamervapor
 series_title: "GamerVapor, my Insight Data Science project (2019)"
 ---
 
 {% include series.html %}
 
-[Part 1]({% post_url 2026-09-28-GamerVapor-Predicting-Churn-on-Steam %}) introduced GamerVapor, a 2019 tool that predicted which users would leave the Steam community. Before any modeling could happen, I needed a dataset, and there wasn't one to download. This post covers how I built it.
+*Written in September 2026, looking back; dated to when the project was built.*
+
+
+[Part 1]({% post_url 2019-08-01-GamerVapor-Predicting-Churn-on-Steam %}) introduced GamerVapor, a 2019 tool that predicted which users would leave the Steam community. Before any modeling could happen, I needed a dataset, and there wasn't one to download. This post covers how I built it.
 
 ## The source: the Steam Web API
 
@@ -67,4 +70,4 @@ The core pattern still holds up: find a source, crawl it respectfully, store it 
 
 - **Snapshot over time.** One crawl gives you one moment. Repeating it weekly would give the model real before-and-after data, instead of inferring change from timestamps.
 - **Think harder about the sample.** A crawl along friendships gives you a very particular slice of the platform, and I'd measure that bias explicitly.
-- **Separate label time from feature time.** Build features only from data before the churn window starts, so the model can't peek at the outcome. More on why that matters in [Part 3]({% post_url 2026-09-28-GamerVapor-Data-Science %}).
+- **Separate label time from feature time.** Build features only from data before the churn window starts, so the model can't peek at the outcome. More on why that matters in [Part 3]({% post_url 2019-08-01-GamerVapor-Data-Science %}).

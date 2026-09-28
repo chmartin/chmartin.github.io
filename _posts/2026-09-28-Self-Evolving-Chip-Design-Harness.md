@@ -8,7 +8,7 @@ series_title: a self-evolving chip-design harness
 
 {% include series.html %}
 
-It has been a while! The last post here was about my FitBit data in 2019. A lot has changed since then, but one thing hasn't: I still like problems where the data can't lie to you.
+It has been a while! The posts just before this one look back at two earlier projects: [GamerVapor]({% post_url 2019-08-01-GamerVapor-Predicting-Churn-on-Steam %}), a churn model from 2019, and a [2023 hackathon chatbot]({% post_url 2023-06-01-Natural-Language-SQL-Chatbot %}) built in the first months of ChatGPT. Read in order, they show how much the tools have changed. One thing hasn't: I still like problems where the data can't lie to you.
 
 On Saturday, Sep 26, I competed solo in **The Harness Engineering & Model Wrangling Hackathon**, hosted by MongoDB and Cerebral Valley in New York. I didn't win, but I'm proud of what I built in one day, and I learned something I think is worth sharing.
 

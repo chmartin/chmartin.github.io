@@ -1,8 +1,10 @@
 ---
 layout: post
 title: "Asking Your Data Questions in Plain English: A Hackathon Chatbot That Wrote SQL"
-date: 2026-09-28 00:04:00 -0400
+date: 2023-06-01 00:01:00 -0400
 ---
+
+*Written in September 2026, looking back; dated to when the project was built.*
 
 In 2023, while I was a Staff Data Scientist at LiveRamp, a small team and I built a Slack chatbot that turned plain-English questions into SQL. This post looks back at it three years later, so I'll try to describe it the way it looked at the time, not with today's tools in mind. It went from idea to working proof of concept in three days, and it took **first place in the company's hackathon**. Here's the problem it solved and how it worked.
 
