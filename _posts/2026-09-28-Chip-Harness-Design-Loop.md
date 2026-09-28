@@ -3,9 +3,10 @@ layout: post
 title: "Chip Harness, Part 2: The Design Loop"
 date: 2026-09-28 00:02:00 -0400
 series: chip-harness
+series_title: a self-evolving chip-design harness
 ---
 
-{% include chip-harness-series.html %}
+{% include series.html %}
 
 In [Part 1]({% post_url 2026-09-28-Self-Evolving-Chip-Design-Harness %}) I gave the big picture of the harness I built at the MongoDB hackathon. This post goes one level down into the **design loop**: the part where AI agents actually edit hardware, and where every idea gets checked against real place-and-route results.
 

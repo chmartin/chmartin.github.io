@@ -3,9 +3,10 @@ layout: post
 title: "Chip Harness, Part 1: A Harness That Rewrites Itself"
 date: 2026-09-28 00:01:00 -0400
 series: chip-harness
+series_title: a self-evolving chip-design harness
 ---
 
-{% include chip-harness-series.html %}
+{% include series.html %}
 
 It has been a while! The last post here was about my FitBit data in 2019. A lot has changed since then, but one thing hasn't: I still like problems where the data can't lie to you.
 

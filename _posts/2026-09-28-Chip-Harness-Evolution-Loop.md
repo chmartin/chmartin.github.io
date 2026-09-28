@@ -3,9 +3,10 @@ layout: post
 title: "Chip Harness, Part 3: The Evolution Loop"
 date: 2026-09-28 00:03:00 -0400
 series: chip-harness
+series_title: a self-evolving chip-design harness
 ---
 
-{% include chip-harness-series.html %}
+{% include series.html %}
 
 [Part 2]({% post_url 2026-09-28-Chip-Harness-Design-Loop %}) covered the design loop, where agents edit Verilog and every candidate is scored by real place-and-route. This post is about the loop wrapped around it: the harness noticing it's stuck, working out why, and **rewriting its own configuration**. It's also where I made my most instructive mistakes.
 
