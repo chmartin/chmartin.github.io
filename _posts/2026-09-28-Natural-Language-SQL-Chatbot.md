@@ -16,7 +16,7 @@ So the question for the hackathon was: **what if anyone could ask the data a que
 
 ## The team
 
-This was a team effort. Two data engineers worked with me on the system design, and a project manager scoped the project and shaped our pitch.
+This was a team effort. Two data engineers worked with me on the system design, and a project manager scoped the project and shaped our pitch. I led the project and built the prompt and natural-language-to-SQL flow, and I did all of the prompt engineering and end-to-end testing.
 
 ## The state of the art in 2023
 
