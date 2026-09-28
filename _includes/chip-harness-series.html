@@ -1,0 +1,9 @@
+{% assign series = site.posts | where: "series", "chip-harness" %}
+<div class="message" style="font-size:0.9em;">
+  <strong>Series: a self-evolving chip-design harness</strong>
+  <ol style="margin-bottom:0;">
+  {% for p in series reversed %}
+    <li>{% if p.url == page.url %}<strong>{{ p.title }}</strong>{% else %}<a href="{{ p.url }}">{{ p.title }}</a>{% endif %}</li>
+  {% endfor %}
+  </ol>
+</div>

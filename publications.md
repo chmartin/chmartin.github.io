@@ -4,9 +4,7 @@ title: Publications
 active: publications
 ---
 
-Download [Resume](https://chmartin.web.cern.ch/chmartin/Chris_Martin/contact/Resume.pdf)
-
-Download [Academic CV](https://chmartin.web.cern.ch/chmartin/Chris_Martin/contact/CV.pdf)
+My full work history is on [LinkedIn](https://www.linkedin.com/in/chmartinprof).
 
 ---
 I am a contributing author on > 100 publications in the ATLAS collaboration, and >100 publications in the CMS collaboration. 

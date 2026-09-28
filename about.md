@@ -22,4 +22,6 @@ It was inspired by my personal goal to further understanding of how data is empl
 
 I hope you enjoy the content and join me in the discussions about what data can tell us!
 
-**[Last updated: Feb 12, 2019]**
+**2026 update:** When I started this blog in 2019 the big story was how much data we generate. Today it's what AI agents can do with it, and how we make sure they're doing the right thing. The goal of the blog hasn't changed: take an interesting question, work it through honestly, and explain it so anyone can follow along.
+
+**[Last updated: Sep 28, 2026]**

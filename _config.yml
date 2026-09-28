@@ -16,7 +16,7 @@
 
 title: Christopher B. Martin, PhD
 
-email: christopher.blake.martin@cern.ch
+email: c.martin365@gmail.com
 
 description: > # this means to ignore newlines until "baseurl:"
   Data does not lie, but we might ask it the wrong question.
@@ -34,6 +34,12 @@ markdown: kramdown
 
 disqus: "https-chmartin-github-io"
 
-gems:
+plugins:
   - jekyll-feed
   - jekyll-sitemap
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
