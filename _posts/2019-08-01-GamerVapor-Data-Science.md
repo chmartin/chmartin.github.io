@@ -21,8 +21,9 @@ GamerVapor had two jobs: flag users likely to churn, and explain *what would cha
 
 Only about **15% of users had churned**. Trained on the raw data, a model can score well by mostly predicting "active". So I:
 
-- **Down-sampled the majority class in the training set,** so the model saw equal numbers of churned and active users.
+- **Held out 20% of users as a test set,** then **down-sampled the active users in the training set,** so the model saw equal numbers of churned and active users.
 - **Kept the true 15% ratio in the holdout test set,** so the evaluation reflected what the tool would face in the real world.
+- **Standardized the features** (scikit-learn's `StandardScaler`) and used **L2 regularization**, with the strength (C = 0.1) chosen by validation.
 - **Tuned the decision threshold.** A user was flagged as churning when the predicted probability was above **52.5%**.
 
 ![Predicted churn probability for the test set, with the 52.5% threshold](/assets/images/gamervapor/test_set_probability.png)
@@ -81,7 +82,9 @@ Because the model is linear, "what would keep this user?" can be answered by cha
 ![What if churned users added one new friend](/assets/images/gamervapor/whatif_add_friend.png)
 *Add one new friend: most churned users move below the threshold.*
 
-The same idea powered the **community score**: aggregate the churn risk across a user's friend group to get one number for how healthy that group is.
+The same idea powered the **community score**: 100 × (1 − the average churn probability of a user's friends). A friend group where nobody is likely to leave scores near 100.
+
+In the web app, none of this was computed live. Every user's probability, community score and "what if" results were precomputed in a notebook and stored in PostgreSQL, so the Heroku app only had to look them up.
 
 ## Looking back from 2026
 
@@ -92,5 +95,7 @@ I'm still fond of this project, but with seven more years of experience, a few t
 **"What if" isn't "because of".** Re-scoring with an extra friend shows what the model associates with staying, not what would *cause* someone to stay. People who make friends may simply be the kind of people who stay. The recommendations were hypotheses worth testing, ideally with an experiment, not proven levers.
 
 **The answer might still be right.** Even with those caveats, the direction held up across every view of the data: Steam is a social platform, and social connection is what keeps people on it. For a few weeks of work in 2019, finding that clearly, and being able to explain it, was the point.
+
+The notebooks behind this post are on [GitHub](https://github.com/chmartin/SteamCommunity) (the final model is `Logistic_Regression_Profile_Info_Clean_v3.ipynb`), and the web app is [here](https://github.com/chmartin/insight_heroku_app).
 
 That's the end of the series. Thanks for reading!

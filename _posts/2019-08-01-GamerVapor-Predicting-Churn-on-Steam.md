@@ -11,7 +11,7 @@ series_title: "GamerVapor, my Insight Data Science project (2019)"
 *Written in September 2026, looking back; dated to when the project was built.*
 
 
-In the summer of 2019 I left particle physics for industry through the [Insight Data Science](https://insightfellows.com) fellowship. Insight fellows spend a few intense weeks building a data product from scratch and then present it to hiring companies. Mine was **GamerVapor**, a tool to predict and diagnose churn in the Steam community.
+In the summer of 2019 I left particle physics for industry through the [Insight Data Science](https://insightfellows.com) fellowship. Insight fellows spend four intense weeks building a data product from scratch and then present it to hiring companies. Mine was **GamerVapor**, a tool to predict and diagnose churn in the Steam community.
 
 This is a look back at that project, seven years later. Part 1 covers the idea and what I found. [Part 2]({% post_url 2019-08-01-GamerVapor-Data-Engineering %}) covers the data engineering (how I collected a 200,000-user social network from a public API), and [Part 3]({% post_url 2019-08-01-GamerVapor-Data-Science %}) covers the modeling.
 
@@ -26,7 +26,7 @@ That community matters to the business. People who are engaged with friends on t
 ![Number of users by months since their last login](/assets/images/gamervapor/churn_definition.png)
 *How many users had been away for at least N months. The curve flattens after about three months.*
 
-I defined a **churned user** as someone who hadn't logged into Steam for more than 3 months. The curve above is why: the number of users who had been away drops steeply over the first few months and then flattens out. Someone gone for three months is usually gone for good.
+I defined a **churned user** as someone who hadn't been on Steam for more than 3 months (using the "last log-off" time Steam reports for every user). The curve above is why: the number of users who had been away drops steeply over the first few months and then flattens out. Someone gone for three months is usually gone for good.
 
 By that definition, about 15% of the users I studied had churned.
 
@@ -63,13 +63,16 @@ The single strongest feature in the model was **how recently a user made a new f
 
 ## The 2019 toolkit
 
-This was a 2019 project, built with 2019 tools, in a few weeks, by one person:
+This was a 2019 project, built with 2019 tools, in four weeks, by one person:
 
-- **Python and pandas** for everything from collection to features
-- **PostgreSQL** to store the data
-- **scikit-learn** for logistic regression and validation
-- **Flask** for the web app
+- **Python, requests and pandas** to call the Steam Web API and store the results as CSV files
+- **Jupyter notebooks** for exploration, feature engineering and modeling
+- **scikit-learn** for logistic regression, scaling and validation
+- **PostgreSQL** to hold every user's precomputed scores for the app
+- **Flask** (with Bootstrap and matplotlib) for the web app, hosted on **Heroku**
 
 No cloud ML platform and no deep learning. A clean, interpretable model was the right tool, because the point was to explain *why* users churn, not just to flag them.
+
+The code is on GitHub: the [data collection and analysis](https://github.com/chmartin/SteamCommunity) and the [web app](https://github.com/chmartin/insight_heroku_app).
 
 Next, [Part 2]({% post_url 2019-08-01-GamerVapor-Data-Engineering %}): building the dataset.

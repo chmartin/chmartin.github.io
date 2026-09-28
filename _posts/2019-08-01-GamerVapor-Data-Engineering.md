@@ -15,29 +15,29 @@ series_title: "GamerVapor, my Insight Data Science project (2019)"
 
 ## The source: the Steam Web API
 
-Valve publishes a public web API (part of Steamworks) that returns information about any user whose profile is public. Three kinds of data mattered:
+Valve publishes a public web API (part of Steamworks) that returns information about Steam users, with more detail for public profiles. Three calls did most of the work: `GetPlayerSummaries`, `GetFriendList` and `GetOwnedGames`.
 
 | Data | What it contains |
 |---|---|
-| **User profile** | When the account was created, profile and privacy settings, location, group (clan) membership, avatar, name, persona state, and **last login** |
+| **User profile** | When the account was created, profile and privacy settings, location, group (clan) membership, avatar, name, persona state, and **last log-off** |
 | **Friendships** | Pairs of users, with the date each friendship started |
 | **Games** | Games owned, and lifetime playtime for each |
 
-The last-login time gave me the label: anyone who hadn't logged in for more than three months counted as churned. The friend list gave me something just as valuable: a way to find more users.
+The last log-off time gave me the label: anyone who hadn't logged in for more than three months counted as churned. The friend list gave me something just as valuable: a way to find more users.
 
 ## Network iteration: letting the friend graph do the sampling
 
 ![Network iteration: start from one user, then crawl their friends, then their friends' friends](/assets/images/gamervapor/network_iteration.png)
 
-There's no API call for "give me a random sample of Steam users", but every user's friend list points to more users. So the collection was a crawl through the friend graph:
+There's no API call for "give me a random sample of Steam users", but every user's friend list points to more users. So the collection was a crawl through the friend graph, run in rounds:
 
 1. Start from a seed user.
-2. Fetch their profile, games and friend list.
-3. Add each friend to the queue, then repeat for them, and for their friends.
+2. For each user in the current round, fetch their profile, games and friend list, and append the results to CSV files.
+3. Write every friend who hasn't been processed yet to a list, which becomes the input for the next round.
 
-Iterating outward like this, I collected and studied about **200,000 users**.
+The scraper kept a list of processed IDs so no one was fetched twice (and, according to a comment in the code, stopped at a million users so as not to "go crazy"). A notebook then merged the rounds into one dataset. Iterating outward like this, I collected and studied about **200,000 users**. A second script also pulled per-game achievement data for user and game pairs.
 
-It's worth being honest about what this kind of sampling does. A crawl along friendships over-represents connected users and under-represents loners, because you can only reach someone through a friend. For a project whose main finding turned out to be about friendships, that's a bias to keep in mind. It's also why the crawl order carried information of its own: for each user I could look "up" the tree (the friends through whom I'd found them) and "down" it (the friends I discovered through them), and some of those counts became features.
+It's worth being honest about what this kind of sampling does. A crawl along friendships over-represents connected users and under-represents loners, because you can only reach someone through a friend. For a project whose main finding turned out to be about friendships, that's a bias to keep in mind. The crawl structure also carried information of its own: I studied each user's friendships in both directions of the crawl, "up" and "down" the tree, and some of those counts became features.
 
 ## Public and private profiles
 
@@ -51,7 +51,9 @@ Missing data here isn't random: choosing to hide your profile says something abo
 
 ## Storing it
 
-The crawl results went into **PostgreSQL**, and everything downstream (cleaning, joins, feature building) was done in **pandas**. The data is naturally relational: users, friendships between pairs of users, and user–game ownership. A friends-of-friends statistic, such as the average number of friends your friends have, is just a couple of joins.
+Keeping it simple was the right call for a four-week project. The crawl wrote plain **CSV files** (player info, games per player, friendships), and everything downstream (merging rounds, cleaning, joins, feature building) happened in **pandas** in Jupyter notebooks. The data is naturally relational: users, friendships between pairs of users, and user–game ownership. A friends-of-friends statistic, such as the average number of friends your friends have, is just a couple of merges.
+
+The database came at the end. Once the model was trained, every user's churn probability, their friends' average, and each "what if" score were precomputed and loaded into a **PostgreSQL** table. The Heroku web app just looked a user up by Steam ID, which kept it fast and cheap to run.
 
 ## From raw data to features
 
@@ -70,4 +72,5 @@ The core pattern still holds up: find a source, crawl it respectfully, store it 
 
 - **Snapshot over time.** One crawl gives you one moment. Repeating it weekly would give the model real before-and-after data, instead of inferring change from timestamps.
 - **Think harder about the sample.** A crawl along friendships gives you a very particular slice of the platform, and I'd measure that bias explicitly.
-- **Separate label time from feature time.** Build features only from data before the churn window starts, so the model can't peek at the outcome. More on why that matters in [Part 3]({% post_url 2019-08-01-GamerVapor-Data-Science %}).
+- **Separate label time from feature time.** Build features only from data before the churn window starts, so the model can't peek at the outcome. 
+The crawler and notebooks are on [GitHub](https://github.com/chmartin/SteamCommunity). More on why that matters in [Part 3]({% post_url 2019-08-01-GamerVapor-Data-Science %}).
