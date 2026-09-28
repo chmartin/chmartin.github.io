@@ -12,4 +12,8 @@ active: blog
 </ul>
 </div>
 
-
+<h3>Coming soon</h3>
+<ul>
+  <li>A chatbot that won a company hackathon: natural-language AI for non-technical teams</li>
+  <li>Series: AI development &amp; baseball</li>
+</ul>
